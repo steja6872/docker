@@ -28,4 +28,4 @@ jobs:
       # Optional - Build a Docker image
       - name: Build Docker Image
         run: |
-          docker build -t test-login-image .
+          docker build -t test-login-image
