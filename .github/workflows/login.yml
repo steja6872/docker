@@ -11,14 +11,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # ✅ Use this action to login to Docker Hub using secrets
       - name: Docker Login
         uses: docker/login-action@v3.4.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Login to Docker Hub
-        id: docker_login
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
+      # ✅ Check login status
       - name: Check Login Status
         run: |
           if docker info | grep -i "Username:"; then
@@ -28,7 +28,7 @@ jobs:
             exit 1
           fi
 
-      # Optional - Build a Docker image
+      # ✅ Optional: Build Docker image (make sure Dockerfile exists in repo)
       - name: Build Docker Image
         run: |
-          docker build -t test-login-image
+          docker build -t test-login-image .
