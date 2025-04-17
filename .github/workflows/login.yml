@@ -29,8 +29,3 @@ jobs:
             echo "❌ Docker login failed!"
             exit 1
           fi
-
-      # ✅ Optional: Build Docker image (make sure Dockerfile exists in repo)
-      - name: Build Docker Image
-        run: |
-          docker build -t test-login-image .
