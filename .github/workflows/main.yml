@@ -1,0 +1,34 @@
+name: Basic Docker Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  docker-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Build Docker Image
+      run: |
+        docker build -t my-basic-image .
+
+    - name: Run Docker Container
+      run: |
+        docker run --name my-container my-basic-image
+
+    - name: (Optional) Copy Output from Container
+      run: |
+        docker create --name temp-container my-basic-image
+        docker cp temp-container:/output.txt ./output.txt
+        docker rm temp-container
+
+    - name: Upload Output as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-output
+        path: ./output.txt
