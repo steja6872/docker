@@ -1,4 +1,4 @@
-name: Docker Build and Upload Artifact
+name: Pull Docker Image and Upload Artifact
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-upload:
+  pull-and-upload:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,14 +16,14 @@ jobs:
       - name: Docker Login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build Docker Image
-        run: docker build -t my-image:latest .
+      - name: Pull Docker Image from Docker Hub
+        run: docker pull nginx:latest  # you can replace with your desired image
 
       - name: Save Docker Image as tar
-        run: docker save my-image:latest -o my-image.tar
+        run: docker save nginx:latest -o pulled-image.tar
 
       - name: Upload Docker Image as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: docker-image-artifact
-          path: my-image.tar
+          name: pulled-docker-image
+          path: pulled-image.tar
