@@ -1,5 +1,5 @@
-# Use an official lightweight image
+# Use a lightweight base image
 FROM alpine:latest
 
-# Run a simple command
+# Define the command to run inside the container
 CMD ["echo", "Hello from Docker!"]
